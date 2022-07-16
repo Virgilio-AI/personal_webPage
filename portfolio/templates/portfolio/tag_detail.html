@@ -1,0 +1,75 @@
+
+{% extends "portfolio/layout.html" %}
+
+{% load static %}
+
+{% block content %}
+
+
+<div style:'background-color: #928C8C'>
+	<h1 style='opacity: 0.6;border-radius: 10px; background-color: #007bff; display: flex;justify-content: center;color: {{tag.color}}; font-family:serif; font-weight:900' >
+		{{tag.title}}
+	</h1>
+</div>
+
+<h2 class="mt-5">Projects</h2>
+<hr>
+<div class="row">
+	{% for p in projects %}
+
+
+	<div class="col-lg-4 col-md-6">
+
+
+
+		<a href="{% url 'project:project_view' p.id %}">
+			<img src="{{ p.image.url }}" class="img-fluid mb-2" style='max-height:200px'>
+		</a>
+
+
+
+		<h3>{{ p.title }}</h3>
+		<p>{{ p.description }}</p>
+
+		{% for tag in p.tags.all %} <a type="button" class="btn btn-outline-dark btn-sm"href="{% url 'project:tag_view' tag.id%}" style="font-family:serif;background:{{tag.color}};opacity: 0.7">{{tag.title}}</a> {% endfor %}
+
+	</div>
+	{% endfor %}
+</div>
+
+
+{% if certificates.count >= 1 %}
+	
+<h2 class="mt-5">Certificates</h2>
+<hr>
+<div class="row">
+	{% for cert in certificates %}
+
+	{% if forloop.counter <= 3 %}
+
+	<div class="col-lg-4 col-md-6">
+
+
+
+		<a href="{% url 'project:pdf_view' cert.id 'no' %}">
+			<img src="{{ cert.image.url }}" class="img-fluid mb-2" style='max-height:200px'>
+		</a>
+
+
+
+		<h5  >{{ cert.title }}</h5>
+
+
+	</div>
+	{% endif %}
+	{% endfor %}
+</div>
+
+
+
+{% endif %}
+
+
+
+{% endblock %}
+
